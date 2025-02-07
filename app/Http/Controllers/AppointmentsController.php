@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\TimeSlot;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Http\Resources\AppointmentResource;
 
-class AppontmentsController extends Controller
+class AppointmentsController extends Controller
 {
     public function index()
     {
-        return Appointment::with('timeSlot')
+        return AppointmentResource::collection(Appointment::with('timeSlot')
             ->whereHas('timeSlot', function ($query) {
                 $query->where('start_time', '>=', now());
             })
-            ->get();
+            ->get());
     }
 
     public function store(Request $request)
@@ -27,11 +28,11 @@ class AppontmentsController extends Controller
 
         $timeSlot = TimeSlot::findOrFail($validated['time_slot_id']);
         if ($timeSlot->is_booked) {
-            return response()->json(['message' => 'Time slot already booked'], 422);
+            return response()->json(['message' => 'Time slot is already booked'], 422);
         }
 
         $appointment = Appointment::create($validated);
         $timeSlot->update(['is_booked' => true]);
-        return $appointment;
+        return response()->json(['message' => 'Appointment created successfully', 'data' => $appointment], 201);
     }
 }

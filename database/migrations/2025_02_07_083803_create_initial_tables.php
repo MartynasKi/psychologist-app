@@ -21,7 +21,7 @@ return new class extends Migration
 
         Schema::create('time_slots', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Psychologist::class);
+            $table->foreignIdFor(Psychologist::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamp('start_time');
             $table->timestamp('end_time');
             $table->boolean('is_booked')->default(false);
@@ -29,7 +29,7 @@ return new class extends Migration
 
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TimeSlot::class);
+            $table->foreignIdFor(TimeSlot::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('client_name', 255);
             $table->string('client_email');
         });

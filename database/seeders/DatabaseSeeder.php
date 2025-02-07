@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Psychologist::factory(2)->hasTimeSlots(10)->create();
+        Psychologist::factory(10)->hasTimeSlots(10)->create();
         Appointment::factory(10)->recycle(TimeSlot::all())->create();
     }
 }

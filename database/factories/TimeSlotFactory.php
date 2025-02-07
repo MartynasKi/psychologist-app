@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use App\Models\Psychologist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,8 +20,8 @@ class TimeSlotFactory extends Factory
     {
         return [
             'psychologist_id' => Psychologist::factory(),
-            'start_time' => fake()->dateTimeBetween('-1 month', '+1 month'),
-            'end_time' => fake()->dateTimeBetween('-1 month', '+1 month'),
+            'start_time' => '2024-11-01 01:00:00',
+            'end_time' => '2024-11-01 02:00:00',
             'is_booked' => fake()->boolean(),
         ];
     }

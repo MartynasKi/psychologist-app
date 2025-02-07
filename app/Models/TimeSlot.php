@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Psychologist;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,11 +21,22 @@ class TimeSlot extends Model
         'is_booked',
     ];
 
+    protected $casts = [
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+        'is_booked' => 'boolean',
+    ];
+
     public $timestamps = false;
 
     public function psychologist(): BelongsTo
     {
         return $this->belongsTo(Psychologist::class);
+    }
+
+    public function appointment(): HasOne
+    {
+        return $this->hasOne(Appointment::class);
     }
 
     public function scopeAvailable($query)

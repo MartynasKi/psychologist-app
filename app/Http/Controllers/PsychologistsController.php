@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Psychologist;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Resources\PsychologistResource;
 
 class PsychologistsController extends Controller
 {
@@ -14,7 +15,7 @@ class PsychologistsController extends Controller
     public function index()
     {
         $psychologists = Psychologist::all();
-        return $psychologists;
+        return PsychologistResource::collection($psychologists);
     }
 
     /**
@@ -27,7 +28,10 @@ class PsychologistsController extends Controller
             'email' => ['required', 'email', Rule::unique('psychologists', 'email')],
         ]);
 
-        Psychologist::create($validated);
-        return response()->noContent(201);
+        $psychologist = Psychologist::create($validated);
+        return response()->json([
+            'message' => 'Psychologist created successfully',
+            'data' => new PsychologistResource($psychologist)
+        ], 201);
     }
 }
