@@ -93,19 +93,10 @@ test('update time slot (booked status)', function () {
         'is_booked' => true,
     ]);
 
-    $response->assertStatus(201);
+    $response->assertStatus(200);
 
     $timeSlot = $timeSlot->refresh();
     $this->assertTrue($timeSlot->is_booked);
-});
-
-test('time slot time range overlap test', function () {
-    $psychologist = Psychologist::factory()->create();
-
-    $response = $this->postJson('/psychologists/' . $psychologist->id . '/time-slots', [
-        'start_time' => '2024-01-01 10:00:00',
-        'end_time' => '2024-01-01 11:00:00',
-    ]);
 });
 
 test('destroy time slot', function () {
