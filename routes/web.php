@@ -15,8 +15,8 @@ Route::get('/psychologists', [PsychologistsController::class, 'index']);
 Route::post('/psychologists/{id}/time-slots', [TimeSlotsController::class, 'store']);
 Route::get('/psychologists/{id}/time-slots', [TimeSlotsController::class, 'index']);
 
-Route::put('/time-slots/{id}', [TimeSlotsController::class, 'update']);
-Route::delete('/time-slots/{id}', [TimeSlotsController::class, 'destroy']);
+Route::put('/time-slots/{timeSlot}', [TimeSlotsController::class, 'update']);
+Route::delete('/time-slots/{timeSlot}', [TimeSlotsController::class, 'destroy']);
 
 Route::post('/appointments', [AppointmentsController::class, 'store']);
 Route::get('/appointments', [AppointmentsController::class, 'index']);

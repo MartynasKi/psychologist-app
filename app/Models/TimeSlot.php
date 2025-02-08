@@ -43,4 +43,13 @@ class TimeSlot extends Model
     {
         return $query->where('is_booked', false);
     }
+
+    public static function isOverlapping($psychologistId, $startTime, $endTime, $excludeId = null): bool
+    {
+        return self::where('psychologist_id', $psychologistId)
+            ->where('start_time', '<=', $endTime)
+            ->where('end_time', '>=', $startTime)
+            ->when($excludeId, fn($query) => $query->where('id', '!=', $excludeId))
+            ->exists();
+    }
 }

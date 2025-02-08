@@ -29,7 +29,7 @@ return new class extends Migration
 
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TimeSlot::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(TimeSlot::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete()->unique();
             $table->string('client_name', 255);
             $table->string('client_email');
         });

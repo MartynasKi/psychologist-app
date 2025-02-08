@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Psychologist;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Resources\PsychologistResource;
 
 class PsychologistsController extends Controller
@@ -14,6 +12,7 @@ class PsychologistsController extends Controller
      */
     public function index()
     {
+        // later we could add pagination
         $psychologists = Psychologist::all();
         return PsychologistResource::collection($psychologists);
     }
@@ -21,11 +20,11 @@ class PsychologistsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::unique('psychologists', 'email')],
+        $validated = request()->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:psychologists,email',
         ]);
 
         $psychologist = Psychologist::create($validated);

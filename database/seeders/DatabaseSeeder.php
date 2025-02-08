@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\TimeSlot;
 use App\Models\Appointment;
 use App\Models\Psychologist;
@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Psychologist::factory(10)->hasTimeSlots(10)->create();
-        Appointment::factory(10)->recycle(TimeSlot::all())->create();
+        Appointment::factory(10)->create();
     }
 }

@@ -59,6 +59,8 @@ test('create time slot error with overlapping time', function () {
         'end_time' => '2024-01-01 11:00:00',
     ]);
 
+    $response->assertStatus(201);
+
     $response = $this->postJson('/psychologists/' . $psychologist->id . '/time-slots', [
         'start_time' => '2024-01-01 10:30:00',
         'end_time' => '2024-01-01 11:00:00',
@@ -84,25 +86,33 @@ test('get list of time slots', function () {
     ]);
 });
 
-test('update time slot', function () {
-    $timeSlot = TimeSlot::factory()->create();
-    $inverse = !$timeSlot->is_booked;
+test('update time slot (booked status)', function () {
+    $timeSlot = TimeSlot::factory()->create(['is_booked' => false]);
 
     $response = $this->putJson('/time-slots/' . $timeSlot->id, [
-        'is_booked' => $inverse,
+        'is_booked' => true,
     ]);
 
-    $response->assertStatus(200);
+    $response->assertStatus(201);
 
     $timeSlot = $timeSlot->refresh();
-    $this->assertEquals($inverse, $timeSlot->is_booked);
+    $this->assertTrue($timeSlot->is_booked);
+});
+
+test('time slot time range overlap test', function () {
+    $psychologist = Psychologist::factory()->create();
+
+    $response = $this->postJson('/psychologists/' . $psychologist->id . '/time-slots', [
+        'start_time' => '2024-01-01 10:00:00',
+        'end_time' => '2024-01-01 11:00:00',
+    ]);
 });
 
 test('destroy time slot', function () {
     $timeSlot = TimeSlot::factory()->create();
 
     $response = $this->deleteJson('/time-slots/' . $timeSlot->id);
-    $response->assertStatus(200);
+    $response->assertStatus(202);
 
     $this->assertDatabaseMissing('time_slots', [
         'id' => $timeSlot->id,

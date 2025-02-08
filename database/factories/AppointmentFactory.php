@@ -18,7 +18,7 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'time_slot_id' => TimeSlot::factory(),
+            'time_slot_id' => TimeSlot::factory()->state(['is_booked' => true]),
             'client_name' => fake()->name(),
             'client_email' => fake()->unique()->safeEmail(),
         ];

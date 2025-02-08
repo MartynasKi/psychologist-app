@@ -2,6 +2,8 @@
 
 ## Setup
 
+Clone this GIT repository and run the following commands:
+
 ```bash
 composer install && cp .env.example .env && php artisan key:generate && php artisan migrate
 ```
@@ -17,6 +19,10 @@ php artisan test
 ```bash
 php artisan serve
 ```
+
+## Api Documentation
+
+Postman documentation can be found [here](https://documenter.getpostman.com/view/39260809/2sAYX8KMmk).
 
 ## Endpoints
 

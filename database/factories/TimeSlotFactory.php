@@ -18,11 +18,15 @@ class TimeSlotFactory extends Factory
      */
     public function definition(): array
     {
+        $startTime = fake()->unique()->dateTimeBetween('now', '+1 year');
+        $endTime = Carbon::instance(clone $startTime)->addHour()->format('Y-m-d H:00:00');
+        $startTime = $startTime->format('Y-m-d H:00:00');
+
         return [
             'psychologist_id' => Psychologist::factory(),
-            'start_time' => '2024-11-01 01:00:00',
-            'end_time' => '2024-11-01 02:00:00',
-            'is_booked' => fake()->boolean(),
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+            'is_booked' => false,
         ];
     }
 }
