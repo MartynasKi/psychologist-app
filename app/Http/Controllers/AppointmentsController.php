@@ -38,6 +38,6 @@ class AppointmentsController extends Controller
         // could be queued
         Mail::to($appointment->client_email)->send(new AppointmentBooked($appointment));
 
-        return response()->json(['message' => 'Appointment created successfully', 'data' => $appointment], 201);
+        return response()->json(['message' => 'Appointment created successfully', 'data' => new AppointmentResource($appointment)], 201);
     }
 }

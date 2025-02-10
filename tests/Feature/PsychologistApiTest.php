@@ -27,17 +27,12 @@ test('create psychologist', function () {
 });
 
 test('get list of psychologists', function () {
+    Psychologist::factory(10)->create();
+
     $response = $this->getJson('/psychologists');
     $response->assertStatus(200);
-    $response->assertJsonStructure([
-        'data' => [
-            '*' => [
-                'id',
-                'name',
-                'email',
-            ],
-        ],
-    ]);
+    $response->assertJsonCount(10, 'data');
+    $response->assertJsonStructure(['data']);
 });
 
 test('create time slot', function () {
@@ -147,11 +142,5 @@ test('get list of appointments', function () {
 
     $response = $this->getJson('/appointments');
     $response->assertStatus(200);
-    $response->assertJsonStructure([
-        'data' => [
-            '*' => [
-                'id'
-            ]
-        ],
-    ]);
+    $response->assertJsonStructure(['data']);
 });

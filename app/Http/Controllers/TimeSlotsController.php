@@ -9,16 +9,13 @@ use App\Http\Requests\UpdateTimeSlotRequest;
 
 class TimeSlotsController extends Controller
 {
-    public function index($id)
+    public function index(Psychologist $psychologist)
     {
-        $psychologist = Psychologist::findOrFail($id);
         return TimeSlotResource::collection($psychologist->timeSlots()->available()->get());
     }
 
-    public function store($id)
+    public function store(Psychologist $psychologist)
     {
-        $psychologist = Psychologist::findOrFail($id);
-
         $validated = request()->validate([
             'start_time' => 'required|date_format:Y-m-d H:i:s',
             'end_time' => 'required|date_format:Y-m-d H:i:s|after:start_time',
